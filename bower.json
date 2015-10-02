@@ -1,0 +1,22 @@
+{
+  "name": "countries-capitals",
+  "version": "0.0.0",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "assets/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.7",
+    "angular-animate": "~1.4.7",
+    "angular-bootstrap": "~0.13.4",
+    "angular-route": "~1.4.7"
+  }
+}
