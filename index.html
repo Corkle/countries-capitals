@@ -5,16 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, inital-scale=1">
     <title>Document</title>
+<!-- build:css style.css -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+<!-- endbuild -->
 </head>
 
 <body>
 
+    <div class="container">
+        <button type="button" class="btn"></button>
+    </div>
 
+<!-- build:vendor js/lib.js -->
     <script src="./assets/libs/angular/angular.js"></script>
-    <script src="./assets/libs/angular-route/"></script>
-    <script src="./assets/libs/angular-bootstrap/"></script>
-    <script src="./assets/libs/angular-animate/"></script>
+    <script src="./assets/libs/angular-route/angular-route.js"></script>
+    <script src="./assets/libs/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="./assets/libs/angular-animate/angular-animate.js"></script>
+<!-- endbuild -->
+<!-- build:js js/ngscripts.js -->
+    <script src="./assets/js/combined-scripts.js"></script>
+<!-- endbuild -->
 </body>
 
 </html>
