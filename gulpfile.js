@@ -5,7 +5,7 @@ var plugins = require('gulp-load-plugins')({
 });
 
 var paths = {
-    scripts: ['app/app.module.js', 'app/shared/**/*.js', 'app/components/**/*.js'],
+    scripts: ['app/**/*.js'],
     ngscriptPath: 'assets/js/',
     ngscriptName: 'combined-scripts.js',
     index: './index.html',
@@ -18,14 +18,20 @@ gulp.task('bundle-scripts', function () {
     gulp.src(paths.scripts)
         .pipe(plugins.addStream.obj(partialsToTemplates()))
         .pipe(plugins.concat(paths.ngscriptName))        
-        .pipe(gulp.dest(paths.ngscriptPath));
+        .pipe(gulp.dest(paths.ngscriptPath))
+        .pipe(plugins.connect.reload());
 });
 
 function partialsToTemplates() {
     return gulp.src(paths.partials)
     .pipe(plugins.htmlmin({collapseWhitespace: true, removeComments: true}))
-    .pipe(plugins.angularTemplatecache());
+    .pipe(plugins.angularTemplatecache({standalone: true}));
 }
+
+gulp.task('html', function() {
+    gulp.src(paths.index)
+    .pipe(plugins.connect.reload());
+});
 
 gulp.task('usemin', function () {
     gulp.src(paths.index)
@@ -51,7 +57,24 @@ gulp.task('clean', function () {
 
 gulp.task('build', ['bundle-scripts', 'usemin']);
 
-gulp.task('default', ['bundle-scripts'], function() {
+gulp.task('default', ['bundle-scripts', 'connectDev'], function() {
     gulp.watch(paths.partials, ['bundle-scripts']);
     gulp.watch(paths.scripts, ['bundle-scripts']);
+    gulp.watch(paths.index, ['html']);
+});
+
+gulp.task('connectDev', function() {
+   plugins.connect.server({
+       root: [__dirname],
+       port: 8000,
+       livereload: true
+   }); 
+});
+
+gulp.task('connectDist', function() {
+    plugins.connect.server({
+        root: ['build'],
+        port: 8080,
+        livereload: true
+    }); 
 });
