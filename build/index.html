@@ -10,30 +10,23 @@
 
 <body>
     <div class="site-wrapper">
-
         <div class="site-wrapper-inner">
-
             <div class="cover-container">
-
                 <div class="masthead clearfix">
                     <div class="inner">
                         <h3 class="masthead-brand">Countries & Capitals</h3>
-                        <nav>
+                        <nav ng-controller="NavbarCtrl">
                             <ul class="nav masthead-nav">
-                                <li class="active"><a ng-href="#!/">Home</a></li>
-                                <li><a>Browse</a></li>
-                                <li><a>Random</a></li>
+                                <li ng-class="{active:isActive('/')}"><a ng-href="#!/">Home</a></li>
+                                <li ng-class="{active:isActive('/countries')}"><a ng-href="#!/countries">Browse</a></li>
+                                <li><a ng-href="#!/">Random</a></li>
                             </ul>
                         </nav>
                     </div>
                 </div>
 
                 <div class="inner cover">
-                    <h1 class="cover-heading">Cover!!!</h1>
-                    <div ng-view></div>
-                    <p class="lead">
-                        <a href="#" class="btn btn-lg btn-default">Learn more</a>
-                    </p>
+                    <div class="lead" ng-view></div>
                 </div>
 
                 <div class="mastfoot">

@@ -1,6 +1,6 @@
 viewsModule.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when("/", {
-        templateUrl: "app/components/home/home.html",
+        templateUrl: "components/home/home.html",
         controller: 'HomeCtrl as h'
     });
 }]);

@@ -5,6 +5,7 @@ var plugins = require('gulp-load-plugins')({
 });
 
 var paths = {
+    style: 'assets/css/style.css',
     scripts: ['app/**/*.js'],
     ngscriptPath: 'assets/js/',
     ngscriptName: 'combined-scripts.js',
@@ -15,7 +16,7 @@ var paths = {
 
 // concatenate all AngularJS files
 gulp.task('bundle-scripts', function () {
-    gulp.src(paths.scripts)
+        return gulp.src(paths.scripts)
         .pipe(plugins.addStream.obj(partialsToTemplates()))
         .pipe(plugins.concat(paths.ngscriptName))        
         .pipe(gulp.dest(paths.ngscriptPath))
@@ -33,10 +34,10 @@ gulp.task('html', function() {
     .pipe(plugins.connect.reload());
 });
 
-gulp.task('usemin', function () {
+gulp.task('usemin', ['bundle-scripts'],function () {
     gulp.src(paths.index)
         .pipe(plugins.usemin({
-            css: ['concat', plugins.purifycss(paths.scripts.concat(paths.index), {
+            css: ['concat', plugins.purifycss(paths.scripts.concat(paths.index, paths.partials), {
                 info: true,
                 rejected: true
             }), plugins.autoprefixer('last 2 versions'), plugins.minifyCss({
@@ -58,12 +59,15 @@ gulp.task('clean', function () {
 gulp.task('build', ['bundle-scripts', 'usemin']);
 
 gulp.task('default', ['bundle-scripts', 'connectDev'], function() {
-    gulp.watch(paths.partials, ['bundle-scripts']);
-    gulp.watch(paths.scripts, ['bundle-scripts']);
+//    gulp.watch(paths.partials, ['bundle-scripts']);
+//    gulp.watch(paths.scripts, ['bundle-scripts']);
+    plugins.watch(paths.partials, function() {gulp.start(['bundle-scripts']);});
+    plugins.watch(paths.scripts, function() {gulp.start(['bundle-scripts']);});
     gulp.watch(paths.index, ['html']);
+    gulp.watch(paths.style, ['html']);
 });
 
-gulp.task('connectDev', function() {
+gulp.task('connectDev',['bundle-scripts'], function() {
    plugins.connect.server({
        root: [__dirname],
        port: 8000,
@@ -74,7 +78,6 @@ gulp.task('connectDev', function() {
 gulp.task('connectDist', function() {
     plugins.connect.server({
         root: ['build'],
-        port: 8080,
-        livereload: true
+        port: 8080
     }); 
 });
