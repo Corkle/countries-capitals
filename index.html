@@ -14,34 +14,10 @@
 <body>
     <div class="site-wrapper">
         <div class="site-wrapper-inner">
-            <div class="cover-container">
-                <div class="masthead clearfix">
-                    <div class="inner">
-                        <h3 class="masthead-brand">Countries & Capitals</h3>
-                        <nav ng-controller="NavbarCtrl">
-                            <ul class="nav masthead-nav">
-                                <li ng-class="{active:isActive('/')}"><a ng-href="#!/">Home</a></li>
-                                <li ng-class="{active:isActive('/countries')}"><a ng-href="#!/countries">Browse</a></li>
-                                <li><a ng-href="#!/">Random</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-
-                <div class="inner cover">
-                    <div class="lead" ng-view></div>
-                </div>
-
-                <div class="mastfoot">
-                    <div class="inner">
-                        <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-                    </div>
-                </div>
-
+            <div class="content-container">
+                <div class="content-box" ng-view></div>
             </div>
-
         </div>
-
     </div>
 
     <!-- build:vendor js/lib.js -->
@@ -56,3 +32,28 @@
 </body>
 
 </html>
+
+
+<!--
+<div class="masthead clearfix">
+    <div class="inner">
+        <h3 class="masthead-brand">Countries & Capitals</h3>
+        <nav ng-controller="NavbarCtrl">
+            <ul class="nav masthead-nav">
+                <li ng-class="{active:isActive('/')}"><a ng-href="#!/">Home</a></li>
+                <li ng-class="{active:isActive('/countries')}"><a ng-href="#!/countries">Browse</a></li>
+                <li><a ng-href="#!/">Random</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>-->
+
+
+
+
+<!--
+<div class="mastfoot">
+    <div class="inner">
+        <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+    </div>
+</div>-->
