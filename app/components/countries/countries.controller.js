@@ -5,7 +5,7 @@ viewsModule.config(['$routeProvider', function ($routeProvider) {
         });
 }])
     .controller('CountriesCtrl', ['geoCountries', function (geoCountries) {
-        this.text = "Here are the countries.";
+        this.text = "Here are the countries";
         var that = this;
         geoCountries()
             .then(function (countryData) {
