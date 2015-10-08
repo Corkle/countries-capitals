@@ -2,8 +2,9 @@
 <p>{{ c.text }}</p>
 
 
-<div class="scroll-list">
-    <div ng-repeat="country in c.countries">
+<div class="scroll-list" infinite-scroll="c.loadMore()" can-load="true">
+    <div ng-repeat="country in c.countryList
+       track by country.countryCode">
         <p>{{ country.countryCode }}</p>
     </div>
 </div>

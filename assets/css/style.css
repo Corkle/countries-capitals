@@ -13,6 +13,10 @@ a:hover {
     color: #fff;
 }
 
+/* Padding for spacing */
+.inner {
+    padding: 20px;
+}
 /* Custom default button */
 .btn-default,
 .btn-default:hover,
@@ -21,6 +25,11 @@ a:hover {
     text-shadow: none; /* Prevent inheritence from `body` */
     background-color: #fff;
     border: 1px solid #fff;
+}
+
+.cover .btn-lg {
+    padding: 10px 20px;
+    font-weight: bold;
 }
 /*
 * Base structure
@@ -60,17 +69,7 @@ body {
     align-self: center;
     flex: 1;
     overflow: auto;
-}
-
-/* Padding for spacing */
-.inner {
-    padding: 20px;
-}
-
-.cover .btn-lg {
-    padding: 10px 20px;
-    font-weight: bold;
-}
+    }
 
 .content-box {
     display: flex;
