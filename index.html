@@ -11,12 +11,35 @@
     <!-- endbuild -->
 </head>
 
-<body>
+<body>      
+   
     <div class="site-wrapper">
         <div class="site-wrapper-inner">
+            <header id="site-navbar">
+                <div class="masthead clearfix">
+                    <div class="inner">
+                        <h3 class="masthead-brand">Countries & Capitals</h3>
+                        <nav ng-controller="NavbarCtrl">
+                            <ul class="nav masthead-nav">
+                                <li ng-class="{active:isActive('/')}"><a ng-href="#!/">Home</a></li>
+                                <li ng-class="{active:isActive('/countries')}"><a ng-href="#!/countries">Browse</a></li>
+                                <li><a ng-href="#!/">Random</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
             <div class="content-container">
                 <div class="content-box" ng-view></div>
             </div>
+            
+            <footer class="site-footer">
+                <div class="mastfoot">
+                    <div class="inner">
+                        <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 
