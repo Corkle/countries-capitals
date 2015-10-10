@@ -16,7 +16,6 @@ viewsModule.config(['$routeProvider', function ($routeProvider) {
             .then(function (countryData) {
                 allCountries = countryData.data.geonames;
                 that.countryList = allCountries.slice(0, LIST_STEP);
-            
             //TODO: infiniteScroll does not load additional rows if containing div is not scrollable! Find a way to do this the Angular way:
 //            while (countryList < all countries && scrollList.clientHeight < .scrollHeight)
 //            { Run loadMore() }

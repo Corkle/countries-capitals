@@ -57,8 +57,7 @@ viewsModule.config(['$routeProvider', function ($routeProvider) {
             .then(function (countryData) {
                 allCountries = countryData.data.geonames;
                 that.countryList = allCountries.slice(0, LIST_STEP);
-            
-            //TODO: infiniteScroll does not load additional rows if containing div is not scrollable!
+            //TODO: infiniteScroll does not load additional rows if containing div is not scrollable! Find a way to do this the Angular way:
 //            while (countryList < all countries && scrollList.clientHeight < .scrollHeight)
 //            { Run loadMore() }
             
@@ -79,5 +78,5 @@ viewsModule.config(['$routeProvider', function($routeProvider) {
 viewsModule.controller('HomeCtrl', function() {
    this.text = "This is the home text.";
 });
-angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("components/countries/countries.html","<h1>Countries</h1><p>{{ c.text }}</p><div class=\"scroll-list\" infinite-scroll=\"c.loadMore()\" can-load=\"true\"><div ng-repeat=\"country in c.countryList\r\n       track by country.countryCode\"><p>{{ country.countryCode }}</p></div></div>");
+angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("components/countries/countries.html","<h1>Countries</h1><p>{{ c.text }}</p><div class=\"scroll-list\" infinite-scroll=\"c.loadMore()\" can-load=\"true\"><table class=\"table\"><thead><tr><th>Country Name</th><th>Code</th><th>Capital</th><th>Area in km2</th><th>Population</th><th>Continent</th></tr></thead><tbody><tr ng-repeat=\"country in c.countryList track by country.countryCode\"><th>{{ country.countryName }}</th><th>{{ country.countryCode }}</th><th>{{ country.capital }}</th><th>{{ country.areaInSqKm }}</th><th>{{ country.population }}</th><th>{{ country.continent }}</th></tr></tbody></table></div>");
 $templateCache.put("components/home/home.html","<h1>Countries and Capitals</h1><div class=\"inner\"><p>{{ h.text }}</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla quas ea nihil inventore id unde quaerat eaque, est harum doloribus facilis molestias voluptas sint quisquam autem alias distinctio! Quis, culpa.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam.</p></div><div class=\"inner\"><a href=\"#!/countries\"><button class=\"btn btn-lg btn-default\">Browse Countries</button></a></div>");}]);

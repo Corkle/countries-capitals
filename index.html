@@ -11,29 +11,50 @@
     <!-- endbuild -->
 </head>
 
-<body>      
-   
+<body>
+
     <div class="site-wrapper">
         <div class="site-wrapper-inner">
-            <header id="site-navbar">
-                <div class="masthead clearfix">
-                    <div class="inner">
-                        <h3 class="masthead-brand">Countries & Capitals</h3>
-                        <nav ng-controller="NavbarCtrl">
-                            <ul class="nav masthead-nav">
+            <header id="top-navbar">
+                <nav class="navbar" ng-controller="NavbarCtrl">
+                    <div class="container-fluid col-md-8 col-md-offset-2">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" ng-click="isCollapsed = !isCollapsed">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#!/">Countries & Capitals</a>
+                        </div>
+                        <div class="collapse navbar-collapse bs-js-navbar-collapse" collapse="isCollapsed">
+                            <ul class="nav navbar-nav navbar-right" ng-click="isCollapsed = true">
                                 <li ng-class="{active:isActive('/')}"><a ng-href="#!/">Home</a></li>
                                 <li ng-class="{active:isActive('/countries')}"><a ng-href="#!/countries">Browse</a></li>
                                 <li><a ng-href="#!/">Random</a></li>
                             </ul>
-                        </nav>
+                        </div>
                     </div>
-                </div>
+                </nav>
             </header>
 
+
+
+
+
+            <!--            PARTIALS LOAD HERE        -->
+
             <div class="content-container">
-                <div class="content-box" ng-view></div>
+                <div class="content-box col-md-8" ng-view></div>
             </div>
-            
+
+
+
+
+
+
+
+
+
             <footer class="site-footer">
                 <div class="mastfoot">
                     <div class="inner">
