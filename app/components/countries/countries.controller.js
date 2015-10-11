@@ -6,7 +6,7 @@ viewsModule.config(['$routeProvider', function ($routeProvider) {
 }])
     .controller('CountriesCtrl', ['geoCountries', function (geoCountries) {
 
-        var LIST_STEP = 25;
+        var LIST_STEP = 10;
 
         this.text = "Here are the countries" + "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam.";
 
