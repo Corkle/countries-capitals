@@ -4,26 +4,27 @@ viewsModule.config(['$routeProvider', function ($routeProvider) {
             controller: 'CountriesCtrl as c'
         });
 }])
-    .controller('CountriesCtrl', ['geoCountries', function (geoCountries) {
+    .controller('CountriesCtrl', ['allCountries', '$location', function (allCountries, $location) {
 
-        var LIST_STEP = 10;
+        var LIST_STEP = 15;
 
-        this.text = "Here are the countries" + "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam.";
+        this.text = "Text about country list";
 
         var that = this;
-        var allCountries = [];
-        geoCountries()
+        var allCountriesList = [];
+        allCountries.get()
             .then(function (countryData) {
-                allCountries = countryData.data.geonames;
-                that.countryList = allCountries.slice(0, LIST_STEP);
-            //TODO: infiniteScroll does not load additional rows if containing div is not scrollable! Find a way to do this the Angular way:
-//            while (countryList < all countries && scrollList.clientHeight < .scrollHeight)
-//            { Run loadMore() }
-            
+            allCountriesList = countryData;
+            that.countryList = allCountriesList.slice(0, LIST_STEP);
             });
 
         this.loadMore = function () {
             var last = that.countryList.length;
-            that.countryList.push.apply(that.countryList, allCountries.slice(last, last + LIST_STEP));
+            that.countryList.push.apply(that.countryList, allCountriesList.slice(last, last + LIST_STEP));
+        };
+
+        this.countryPage = function(selCountry) {
+//            selectedCountry.set(selCountry);
+            $location.path('/countries/'+selCountry.countryCode);
         };
 }]);

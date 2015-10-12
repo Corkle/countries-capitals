@@ -1,7 +1,11 @@
 var app = angular.module('ccApp', ['ui.bootstrap', 'ngRoute', 'ngAnimate', 'infiniteScroll', 'ccAppViews'])
     .config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
         $locationProvider.hashPrefix('!');
-        $routeProvider.otherwise({
+        $routeProvider
+            .when('/error', {
+            templateUrl: 'components/error/error.html'
+        })
+            .otherwise({
             redirectTo: '/'
         });
 }]);

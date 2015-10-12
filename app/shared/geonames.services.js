@@ -19,5 +19,5 @@ var geonames = angular.module('geolocation', [])
                 method: 'GET',
                 url: 'http://api.geonames.org/countryInfoJSON?lang=en&username=' + USERNAME
             });
-        }
+        };
     }]);
