@@ -1,1 +1,0 @@
-var viewsModule = angular.module('ccAppViews', ['ngRoute', 'templates', 'geolocation']);
