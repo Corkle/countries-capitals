@@ -30,7 +30,7 @@ function partialsToTemplates() {
 }
 
 gulp.task('html', function() {
-    gulp.src(paths.index)
+    return gulp.src(paths.index)
     .pipe(plugins.connect.reload());
 });
 
@@ -50,7 +50,7 @@ gulp.task('usemin', ['bundle-scripts'],function () {
 });
 
 gulp.task('clean', function () {
-    gulp.src([paths.build, paths.ngscriptPath + paths.ngscriptName], {
+    return gulp.src([paths.build, paths.ngscriptPath + paths.ngscriptName], {
             read: false
         })
         .pipe(plugins.clean());
@@ -59,8 +59,6 @@ gulp.task('clean', function () {
 gulp.task('build', ['bundle-scripts', 'usemin']);
 
 gulp.task('default', ['bundle-scripts', 'connectDev'], function() {
-//    gulp.watch(paths.partials, ['bundle-scripts']);
-//    gulp.watch(paths.scripts, ['bundle-scripts']);
     plugins.watch(paths.partials, function() {gulp.start(['bundle-scripts']);});
     plugins.watch(paths.scripts, function() {gulp.start(['bundle-scripts']);});
     gulp.watch(paths.index, ['html']);
