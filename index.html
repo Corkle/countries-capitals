@@ -11,9 +11,9 @@
 <body>
 
     <div class="site-wrapper">
-        <div class="site-wrapper-inner">
+        <div class="site-wrapper-inner" ng-controller="NavbarCtrl">
             <header id="top-navbar">
-                <nav class="navbar" ng-controller="NavbarCtrl">
+                <nav class="navbar" >
                     <div class="container-fluid col-md-8 col-md-offset-2">
                         <div class="navbar-header">
                             <button type="button" class="navbar-toggle" ng-click="isCollapsed = !isCollapsed">
@@ -39,7 +39,7 @@
 
             
 
-            <div class="content-container">
+            <div class="content-container" ng-click="isCollapsed = true">
                 <!--            PARTIALS LOAD HERE        -->
                 <div class="content-box col-md-8" ng-view></div>
                 
