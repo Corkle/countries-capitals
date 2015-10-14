@@ -67,7 +67,8 @@ body {
     overflow-y: hidden;
 }
 .content-container {
-    margin: 10px 20px 0 20px;
+    margin: 0 20px;
+    padding-top: 20px;
     height: 90%;
     width: 100%;
     display: flex;
@@ -173,6 +174,7 @@ body {
     }
     
     .content-container {
+        margin-top: 20px;
         margin-bottom: 70px;
     }
     
@@ -181,4 +183,9 @@ body {
         position: absolute;
         bottom: 0;
     }
+}
+
+nav.navbar {
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
