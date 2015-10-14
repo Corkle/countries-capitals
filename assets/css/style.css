@@ -79,10 +79,10 @@ body {
 .content-box {
     margin: auto; /* Fixed scroll issue */
 /*    height: 100%;*/
-/*    width: 100%;*/
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;    
+    justify-content: center;
 }
 
 .scroll-list {
@@ -156,7 +156,10 @@ body {
         background-color: transparent;
     }
     
-    /* Handle the widths */
+    .content-box {
+        width: auto;
+    }
+    
     .mastfoot {
         width: 100%; /* Must be percentage or pixels for horizontal alignment */
         color: #999; /* IE8 proofing */
