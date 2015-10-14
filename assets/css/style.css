@@ -67,27 +67,28 @@ body {
     overflow-y: hidden;
 }
 .content-container {
-    margin: 10px 20px;
+    margin: 10px 20px 0 20px;
     height: 90%;
     width: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+/*    justify-content: center;*/
     align-self: center;
     overflow-y: auto;
+/*    align-items: center;*/
     }
 
 .content-box {
-    margin: auto; /* Fixed scroll issue */
+    margin: auto;
 /*    height: 100%;*/
+/*    min-height: 100px;*/
+    flex-shrink: 0;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .scroll-list {
-    display: flex;
-    flex-direction: column;
+/*    display: flex;*/
+/*    flex-direction: column;*/
     overflow-y: scroll;
     max-height: 444px;
 }
@@ -113,6 +114,7 @@ body {
 .navbar-nav > .active > a:focus {
     color: #fff;
     border-bottom-color: #fff;
+    font-weight: bold;
 }
 
 .icon-bar {
@@ -134,6 +136,11 @@ body {
 
 #top-navbar {
     width: 100%;
+}
+
+.mastfoot {
+    color: #999; /* IE8 proofing */
+    color: rgba(255,255,255,.5);
 }
 
 
@@ -158,11 +165,20 @@ body {
     
     .content-box {
         width: auto;
+/*
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+*/
+    }
+    
+    .content-container {
+        margin-bottom: 70px;
     }
     
     .mastfoot {
         width: 100%; /* Must be percentage or pixels for horizontal alignment */
-        color: #999; /* IE8 proofing */
-        color: rgba(255,255,255,.5);
+        position: absolute;
+        bottom: 0;
     }
 }
