@@ -1,19 +1,17 @@
-var app = angular.module('ccApp', ['ui.bootstrap', 'ngRoute', 'ngAnimate', 'infiniteScroll', 'ccAppViews'])
-    .config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
-        $locationProvider.hashPrefix('!');
-        $routeProvider
-            .when('/error', {
+var app = angular.module('ccApp', ['ui.bootstrap', 'ui.router', 'ngAnimate', 'infiniteScroll', 'ccAppViews'])
+.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/');
+    $stateProvider
+            .state('error', {
+            url: '/error',
             templateUrl: 'components/error/error.html'
-        })
-            .otherwise({
-            redirectTo: '/'
         });
 }]);
 
 function DEBUG(msg, obj) {
     console.log(msg, obj);
 }
-var viewsModule = angular.module('ccAppViews', ['ngRoute', 'templates', 'geolocation']);
+var viewsModule = angular.module('ccAppViews', ['ui.router', 'templates', 'geolocation']);
 var geonames = angular.module('geolocation', [])
     .constant('USERNAME', 'corkle')
     .constant('API_PREFIX', 'http://api.geonames.org')
@@ -39,17 +37,15 @@ var geonames = angular.module('geolocation', [])
     }]);
 app.controller('NavbarCtrl', ['$scope', '$location', function($scope, $location) {
     $scope.isCollapsed = true;
-    $scope.isActive = function(route) {
-        return route === $location.path();
-    };
 }]);
-viewsModule.config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when("/countries", {
-            templateUrl: "components/countries/countries.html",
+viewsModule.config(['$stateProvider', function ($stateProvider) {
+        $stateProvider.state('countries', {
+            url: '/countries',
+            templateUrl: 'components/countries/countries.html',
             controller: 'CountriesCtrl as c'
         });
 }])
-    .controller('CountriesCtrl', ['allCountries', '$location', function (allCountries, $location) {
+    .controller('CountriesCtrl', ['allCountries', '$state', function (allCountries, $state) {
 
         var LIST_STEP = 15;
 
@@ -59,8 +55,8 @@ viewsModule.config(['$routeProvider', function ($routeProvider) {
         var allCountriesList = [];
         allCountries.get()
             .then(function (countryData) {
-            allCountriesList = countryData;
-            that.countryList = allCountriesList.slice(0, LIST_STEP);
+                allCountriesList = countryData;
+                that.countryList = allCountriesList.slice(0, LIST_STEP);
             });
 
         this.loadMore = function () {
@@ -68,9 +64,9 @@ viewsModule.config(['$routeProvider', function ($routeProvider) {
             that.countryList.push.apply(that.countryList, allCountriesList.slice(last, last + LIST_STEP));
         };
 
-        this.countryPage = function(selCountry) {
-//            selectedCountry.set(selCountry);
-            $location.path('/countries/'+selCountry.countryCode);
+        this.countryPage = function (selCountry) {
+            DEBUG('from Countries: ', selCountry.countryCode);
+            $state.go('country', { country: selCountry.countryCode });
         };
 }]);
 viewsModule.factory('allCountries', ['geoCountries','$q', function (geoCountries, $q) {
@@ -116,44 +112,59 @@ viewsModule.factory('allCountries', ['geoCountries','$q', function (geoCountries
         get: get
     };
 }]);
-viewsModule.config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when("/countries/:country", {
-            templateUrl: "components/country/country.html",
+viewsModule.config(['$stateProvider', function ($stateProvider) {
+        $stateProvider.state('country', {
+            url: "/countries/{country}",
+            templateUrl: 'components/country/country.html',
             controller: 'CountryCtrl as country',
             resolve: {
-                country: ['$route', '$location', '$q', 'allCountries', function ($route, $location, $q, allCountries) {
-                    var deferred = $q.defer();
-                    var countryId = $route.current.params.country;
-                    allCountries.get(countryId)
-                        .then(function (countryData) {
-                            deferred.resolve(countryData);
-                        }, function (err) {
-                            $location.path('/error');
-                        });
-                    return deferred.promise;
-            }]
+                country: ['$stateParams', function($stateParams) {
+                    DEBUG('from Resolve: ', $stateParams.country);
+//                    var deferred = $q.defer();
+                    var countryId = $stateParams.country;
+                    
+                    
+                    return $stateParams.country;
+                }]
             }
+//            resolve: {
+//                country: ['$stateProvider', '$stateParams', '$q', 'allCountries', function ($stateProvider, $stateParams, $q, allCountries) {
+//                    DEBUG($stateParams);
+//                    var deferred = $q.defer();
+//                    var countryId = $stateParams.country;
+//                    
+//                    allCountries.get(countryId)
+//                        .then(function (countryData) {
+//                            deferred.resolve(countryData);
+//                        }, function (err) {
+//                            $stateProvider.go('error');
+//                        });
+//                    return deferred.promise;
+//            }]
+//            }
         });
 }])
-    .controller('CountryCtrl', ['country', function (country) {
-
-        this.name = country.countryName;
-        this.text = "Here is text about this country.";
-        this.country = country.countryCode;
+    .controller('CountryCtrl', ['country', '$stateParams', function (country, $stateParams) {
+        
+        DEBUG('from Controller: ', country);
+//        this.name = country.countryName;
+//        this.text = "Here is text about this country.";
+//        this.country = country.countryCode;
 
 
     }]);
-viewsModule.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when("/", {
-        templateUrl: "components/home/home.html",
+viewsModule.config(['$stateProvider', function ($stateProvider) {
+    $stateProvider.state('home', {
+        url: '/',
+        templateUrl: 'components/home/home.html',
         controller: 'HomeCtrl as h'
     });
 }]);
 
-viewsModule.controller('HomeCtrl', function() {
-   this.text = "This is the home text.";
+viewsModule.controller('HomeCtrl', function () {
+    this.text = "This is the home text.";
 });
 angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("components/countries/countries.html","<h1>Countries</h1><p>{{ c.text }}</p><div class=\"scroll-list\" infinite-scroll=\"c.loadMore()\" can-load=\"true\"><table class=\"table\"><thead><tr><th>Country Name</th><th>Code</th><th>Capital</th><th>Area in km2</th><th>Population</th><th>Continent</th></tr></thead><tbody><tr ng-repeat=\"country in c.countryList track by country.countryCode\" ng-click=\"c.countryPage(country)\"><th>{{ country.countryName }}</th><th>{{ country.countryCode }}</th><th>{{ country.capital }}</th><th>{{ country.areaInSqKm }}</th><th>{{ country.population }}</th><th>{{ country.continent }}</th></tr></tbody></table></div>");
 $templateCache.put("components/country/country.html","<h1>{{ country.name }}</h1><p>{{ country.text }}</p><p>{{ country.country }}</p>");
 $templateCache.put("components/error/error.html","<p>Error - Page Not Found</p>");
-$templateCache.put("components/home/home.html","<h1>Countries and Capitals</h1><div class=\"inner\"><p>{{ h.text }}</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla quas ea nihil inventore id unde quaerat eaque, est harum doloribus facilis molestias voluptas sint quisquam autem alias distinctio! Quis, culpa.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam.</p></div><div class=\"inner\"><a href=\"#!/countries\"><button class=\"btn btn-lg btn-default\">Browse Countries</button></a></div>");}]);
+$templateCache.put("components/home/home.html","<h1>Countries and Capitals</h1><div class=\"inner\"><p>{{ h.text }}</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla quas ea nihil inventore id unde quaerat eaque, est harum doloribus facilis molestias voluptas sint quisquam autem alias distinctio! Quis, culpa.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa, corrupti cumque rem laborum sunt ipsum inventore et eligendi. Sit beatae id nobis harum deleniti unde dolores odit voluptatem ipsam.</p></div><div class=\"inner\"><a ui-sref=\"countries\"><button class=\"btn btn-lg btn-default\">Browse Countries</button></a></div>");}]);

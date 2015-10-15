@@ -1,10 +1,11 @@
-viewsModule.config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when("/countries", {
-            templateUrl: "components/countries/countries.html",
+viewsModule.config(['$stateProvider', function ($stateProvider) {
+        $stateProvider.state('countries', {
+            url: '/countries',
+            templateUrl: 'components/countries/countries.html',
             controller: 'CountriesCtrl as c'
         });
 }])
-    .controller('CountriesCtrl', ['allCountries', '$location', function (allCountries, $location) {
+    .controller('CountriesCtrl', ['allCountries', '$state', function (allCountries, $state) {
 
         var LIST_STEP = 15;
 
@@ -14,8 +15,8 @@ viewsModule.config(['$routeProvider', function ($routeProvider) {
         var allCountriesList = [];
         allCountries.get()
             .then(function (countryData) {
-            allCountriesList = countryData;
-            that.countryList = allCountriesList.slice(0, LIST_STEP);
+                allCountriesList = countryData;
+                that.countryList = allCountriesList.slice(0, LIST_STEP);
             });
 
         this.loadMore = function () {
@@ -23,8 +24,8 @@ viewsModule.config(['$routeProvider', function ($routeProvider) {
             that.countryList.push.apply(that.countryList, allCountriesList.slice(last, last + LIST_STEP));
         };
 
-        this.countryPage = function(selCountry) {
-//            selectedCountry.set(selCountry);
-            $location.path('/countries/'+selCountry.countryCode);
+        this.countryPage = function (selCountry) {
+            DEBUG('from Countries: ', selCountry.countryCode);
+            $state.go('country', { country: selCountry.countryCode });
         };
 }]);
