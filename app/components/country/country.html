@@ -1,3 +1,33 @@
-<h1 ng-bind="country.name"></h1>
-<p ng-bind="country.text"></p>
-<p ng-bind="country.country"></p>
+<div class="country-detail">
+<h1 ng-bind-template="{{::country.data.countryName}} ({{::country.data.countryCode}})"></h1>
+    <table class="table centered">
+    <tr>
+        <th>Continent</th>
+        <td ng-bind="::country.data.continentName"></td>
+    </tr>
+    <tr>
+        <th>Population of Country</th>
+        <td ng-bind="::country.data.population | number"></td>
+    </tr>
+       <tr>     
+        <th>Area</th>
+           <td ng-bind="::country.data.areaInSqKm | number"></td>
+    </tr>
+       <tr>
+        <th>Captial</th>
+           <td ng-bind="::country.data.capital"></td>
+    </tr>
+       <tr>
+        <th>Population of Capital</th>
+        <td>TODO</td>
+    </tr>
+       <tr>
+        <th>Neighbors</th>
+        <td>TODO</td>
+    </tr>
+</table>
+</div>
+<div class="row inner">
+    <a ui-sref="countries"><button type="button" class="btn btn-default">Back</button></a>
+    <a ui-sref="home"><button type="button" class="btn btn-default">Home</button></a>
+</div>

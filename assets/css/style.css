@@ -6,6 +6,12 @@
 * Globals
 */
 
+.centered {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
 /* Links */
 a,
 a:focus,
@@ -92,8 +98,30 @@ body {
 /*    flex-direction: column;*/
     overflow-y: scroll;
     max-height: 444px;
+    width: 100%;
+    text-align: left;
 }
 
+.table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
+    background-color: #818181;
+    text-shadow: 1px 1px 8px #000;
+/*    color:#000;*/
+}
+
+.country-detail > .table {
+    width: auto;
+}
+
+.country-detail > .table th{
+    text-align: right;
+    border: none;
+    width: 50%;
+}
+
+.country-detail > .table td {
+    text-align: left;
+    border: none;
+}
 
 .navbar-nav > li > a {
     font-size: 16px;

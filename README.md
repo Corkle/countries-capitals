@@ -1,5 +1,5 @@
 # countries-capitals
 
 ### TODO:
-- Scroll to top of content-container on route change
-- Remove sticky footer on xsmall view
+- Update page title on route change: http://kusar.ch/2014/10/change-title-element-in-angularjs-dynamically-using-routing/
+- Retain scroll position on route changes

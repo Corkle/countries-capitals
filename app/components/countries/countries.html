@@ -2,7 +2,7 @@
 <p>{{ c.text }}</p>
 
 <div class="scroll-list" infinite-scroll="c.loadMore()" can-load="true">
-    <table class="table">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Country Name</th>
@@ -14,16 +14,19 @@
             </tr>
         </thead>
         <tbody>
-<!--            <div class="scroll-list" infinite-scroll="c.loadMore()" can-load="true">-->
             <tr ng-repeat="country in c.countryList track by country.countryCode" ng-click="c.countryPage(country)">
-                <th ng-bind="country.countryName"></th>
-                <th ng-bind="country.countryName"></th>
-                <th ng-bind="country.capital"></th>
-                <th ng-bind="country.areaInSqKm"></th>
-                <th ng-bind="country.population"></th>
-                <th ng-bind="country.continent"></th>
+                <td ng-bind="::country.countryName"></td>
+                <td ng-bind="::country.countryCode"></td>
+                <td ng-bind="::country.capital"></td>
+                <td ng-bind="::country.areaInSqKm | number"></td>
+                <td ng-bind="::country.population | number"></td>
+                <td ng-bind="::country.continent"></td>
             </tr>
-<!--            </div>-->
         </tbody>
     </table>
+</div>
+<div class="inner">
+    <a ui-sref="home">
+        <button class="btn btn-lg btn-default">Home</button>
+    </a>
 </div>
