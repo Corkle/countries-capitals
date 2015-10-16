@@ -25,9 +25,9 @@
                         </div>
                         <div class="collapse navbar-collapse bs-js-navbar-collapse" collapse="isCollapsed">
                             <ul class="nav navbar-nav navbar-right" ng-click="isCollapsed = true">
-                                <li ng-class="{active:isActive('/')}"><a ng-href="#!/">Home</a></li>
-                                <li ng-class="{active:isActive('/countries')}"><a ng-href="#!/countries">Browse</a></li>
-                                <li><a ng-href="#!/">Random</a></li>
+                                <li ui-sref-active="active"><a ui-sref="home">Home</a></li>
+                                <li ui-sref-active="active"><a ui-sref="countries">Browse</a></li>
+                                <li><a ui-sref="home">Random</a></li>
                             </ul>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
 
             <div class="content-container" ng-click="isCollapsed = true">
                 <!--            PARTIALS LOAD HERE        -->
-                <div class="content-box col-md-8" ng-view></div>
+                <div class="content-box col-md-8" ui-view autoscroll></div>
                 
                 
                 <div class="mastfoot col-sm-8">
