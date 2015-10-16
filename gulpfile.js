@@ -15,7 +15,7 @@ var paths = {
 };
 
 // concatenate all AngularJS files
-gulp.task('bundle-scripts', function () {
+gulp.task('bundle-scripts', ['clean-scripts'],function () {
         return gulp.src(paths.scripts)
         .pipe(plugins.addStream.obj(partialsToTemplates()))
         .pipe(plugins.concat(paths.ngscriptName))        
@@ -56,11 +56,14 @@ gulp.task('clean', function () {
         .pipe(plugins.clean());
 });
 
+gulp.task('clean-scripts', function() {
+    gulp.src(paths.ngscriptPath + paths.ngscriptName)
+        .pipe(plugins.clean());
+});
+
 gulp.task('build', ['bundle-scripts', 'usemin']);
 
 gulp.task('default', ['bundle-scripts', 'connectDev'], function() {
-//    gulp.watch(paths.partials, ['bundle-scripts']);
-//    gulp.watch(paths.scripts, ['bundle-scripts']);
     plugins.watch(paths.partials, function() {gulp.start(['bundle-scripts']);});
     plugins.watch(paths.scripts, function() {gulp.start(['bundle-scripts']);});
     gulp.watch(paths.index, ['html']);
