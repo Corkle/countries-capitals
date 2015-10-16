@@ -18,7 +18,6 @@
     "angular-animate": "~1.4.7",
     "angular-bootstrap": "~0.13.4",
     "angular-infinite-scroll-no-jquery": "*",
-    "angular-route": "~1.4.7",
     "angular-ui-router": "~0.2.15"
   }
 }

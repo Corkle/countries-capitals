@@ -25,7 +25,6 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
         };
 
         this.countryPage = function (selCountry) {
-            DEBUG('from Countries: ', selCountry.countryCode);
             $state.go('country', { country: selCountry.countryCode });
         };
 }]);

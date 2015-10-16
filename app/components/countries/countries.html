@@ -16,12 +16,12 @@
         <tbody>
 <!--            <div class="scroll-list" infinite-scroll="c.loadMore()" can-load="true">-->
             <tr ng-repeat="country in c.countryList track by country.countryCode" ng-click="c.countryPage(country)">
-                <th>{{ country.countryName }}</th>
-                <th>{{ country.countryCode }}</th>
-                <th>{{ country.capital }}</th>
-                <th>{{ country.areaInSqKm }}</th>
-                <th>{{ country.population }}</th>
-                <th>{{ country.continent }}</th>
+                <th ng-bind="country.countryName"></th>
+                <th ng-bind="country.countryName"></th>
+                <th ng-bind="country.capital"></th>
+                <th ng-bind="country.areaInSqKm"></th>
+                <th ng-bind="country.population"></th>
+                <th ng-bind="country.continent"></th>
             </tr>
 <!--            </div>-->
         </tbody>
