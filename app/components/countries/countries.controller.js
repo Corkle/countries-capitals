@@ -15,7 +15,11 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
         var allCountriesList = [];
         allCountries.get()
             .then(function (countryData) {
-                allCountriesList = countryData;
+                allCountriesList = countryData.sort(function (a, b) {
+                    if (a.countryName < b.countryName) return -1;
+                    if (a.countryName > b.countryName) return 1;
+                    return 0;
+                });
                 that.countryList = allCountriesList.slice(0, LIST_STEP);
             });
 
@@ -25,6 +29,8 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
         };
 
         this.countryPage = function (selCountry) {
-            $state.go('country', { country: selCountry.countryCode });
+            $state.go('country', {
+                country: selCountry.countryCode
+            });
         };
 }]);

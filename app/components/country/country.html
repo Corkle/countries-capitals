@@ -11,7 +11,7 @@
     </tr>
        <tr>     
         <th>Area</th>
-           <td ng-bind="::country.data.areaInSqKm | number"></td>
+           <td ng-bind-template="{{::country.data.areaInSqKm | number}} km&#178"></td>
     </tr>
        <tr>
         <th>Captial</th>
@@ -19,15 +19,15 @@
     </tr>
        <tr>
         <th>Population of Capital</th>
-        <td>TODO</td>
+           <td ng-bind="::country.data.capitalPopulation | number"></td>
     </tr>
        <tr>
-        <th>Neighbors</th>
-        <td>TODO</td>
+        <th ng-bind-template="{{ ::country.data.neighbours.length }} Neighbours">Neighbors</th>
+           <td><span ng-repeat="neighbour in country.data.neighbours"><a ui-sref="country({country: neighbour.countryCode})">{{neighbour.countryName}}</a>{{ $last ? "" : ", "}}</span></td>
     </tr>
 </table>
 </div>
 <div class="row inner">
-    <a ui-sref="countries"><button type="button" class="btn btn-default">Back</button></a>
+    <a ui-sref="countries"><button type="button" class="btn btn-default">Countries</button></a>
     <a ui-sref="home"><button type="button" class="btn btn-default">Home</button></a>
 </div>
