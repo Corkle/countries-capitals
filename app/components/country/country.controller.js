@@ -18,14 +18,14 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
                             return $q.reject(err);
                         })
                         .then(function (neighbours) {
-//                            DEBUG('neighbours Resolve: ', neighbours);
-//                            DEBUG('if neighbours.geonames', neighbours.geonames ? true : false);
+                            //                            DEBUG('neighbours Resolve: ', neighbours);
+                            //                            DEBUG('if neighbours.geonames', neighbours.geonames ? true : false);
                             if (neighbours.geonames) {
                                 if (neighbours.totalResultsCount > 0) {
                                     countryData.neighbours = neighbours.geonames;
                                 }
                             }
-                        
+
                             if (countryData.capital) {
                                 return geoCapital(countryData.capital, countryId);
                             }
@@ -35,7 +35,10 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
                             return $q.reject(err);
                         })
                         .then(function (capitalData) {
-                            countryData.capitalPopulation = capitalData.geonames[0].population;
+                            DEBUG(capitalData);
+                            if (capitalData.totalResultsCount > 0) {
+                                countryData.capitalPopulation = capitalData.geonames[0].population;
+                            }
                             deferred.resolve(countryData);
                         }, function (err) {
                             countryData.capitalPopulation = 'DATA NOT FOUND';
@@ -50,4 +53,6 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
 }])
     .controller('CountryCtrl', ['country', function (country) {
         this.data = country;
+        this.flagPath = 'http://www.geonames.org/flags/x/' + country.countryCode.toLowerCase() + '.gif';
+        this.mapPath = 'http://www.geonames.org/img/country/250/' + country.countryCode.toUpperCase() + '.png';
     }]);

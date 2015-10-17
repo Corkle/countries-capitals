@@ -1,33 +1,45 @@
 <div class="country-detail">
-<h1 ng-bind-template="{{::country.data.countryName}} ({{::country.data.countryCode}})"></h1>
+    <h1 ng-bind-template="{{::country.data.countryName}} ({{::country.data.countryCode}})"></h1>
     <table class="table centered">
-    <tr>
-        <th>Continent</th>
-        <td ng-bind="::country.data.continentName"></td>
-    </tr>
-    <tr>
-        <th>Population of Country</th>
-        <td ng-bind="::country.data.population | number"></td>
-    </tr>
-       <tr>     
-        <th>Area</th>
-           <td ng-bind-template="{{::country.data.areaInSqKm | number}} km&#178"></td>
-    </tr>
-       <tr>
-        <th>Captial</th>
-           <td ng-bind="::country.data.capital"></td>
-    </tr>
-       <tr>
-        <th>Population of Capital</th>
-           <td ng-bind="::country.data.capitalPopulation | number"></td>
-    </tr>
-       <tr>
-        <th ng-bind-template="{{ ::country.data.neighbours.length }} Neighbours">Neighbors</th>
-           <td><span ng-repeat="neighbour in country.data.neighbours"><a ui-sref="country({country: neighbour.countryCode})">{{neighbour.countryName}}</a>{{ $last ? "" : ", "}}</span></td>
-    </tr>
-</table>
+        <tr>
+            <th>Continent</th>
+            <td ng-bind="::country.data.continentName"></td>
+        </tr>
+        <tr>
+            <th>Population of Country</th>
+            <td ng-bind="::country.data.population | number"></td>
+        </tr>
+        <tr>
+            <th>Area</th>
+            <td ng-bind-template="{{::country.data.areaInSqKm | number}} km&#178"></td>
+        </tr>
+        <tr>
+            <th>Captial</th>
+            <td ng-bind="::country.data.capital"></td>
+        </tr>
+        <tr>
+            <th>Population of Capital</th>
+            <td ng-bind="::country.data.capitalPopulation | number"></td>
+        </tr>
+        <tr>
+            <th ng-bind-template="{{ ::country.data.neighbours.length }} Neighbours">Neighbors</th>
+            <td><span ng-repeat="neighbour in country.data.neighbours"><a ui-sref="country({country: neighbour.countryCode})">{{neighbour.countryName}}</a>{{ $last ? "" : ", "}}</span></td>
+        </tr>
+    </table>
+    <div class="row centered">
+           <div class="col-sm-4 col-sm-offset-2">
+            <img id="country-flag" ng-src="{{country.flagPath}}" />
+        </div>
+           <div class="col-sm-4">
+            <img id="country-map" ng-src="{{country.mapPath}}" />
+        </div>
+    </div>
 </div>
 <div class="row inner">
-    <a ui-sref="countries"><button type="button" class="btn btn-default">Countries</button></a>
-    <a ui-sref="home"><button type="button" class="btn btn-default">Home</button></a>
+    <a ui-sref="countries">
+        <button type="button" class="btn btn-default">Countries</button>
+    </a>
+    <a ui-sref="home">
+        <button type="button" class="btn btn-default">Home</button>
+    </a>
 </div>
