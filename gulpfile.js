@@ -63,10 +63,10 @@ gulp.task('clean-scripts', function() {
 });
 
 gulp.task('copy-assets', function() {
-   gulp.src(paths.assets).pipe(gulp.dest(paths.build + '/assets/')); 
+   return gulp.src(paths.assets).pipe(gulp.dest(paths.build)); 
 });
 
-gulp.task('build', ['bundle-scripts', 'usemin']);
+gulp.task('build', ['bundle-scripts', 'usemin', 'copy-assets']);
 
 gulp.task('default', ['bundle-scripts', 'connectDev'], function() {
     plugins.watch(paths.partials, function() {gulp.start(['bundle-scripts']);});
