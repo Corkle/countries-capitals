@@ -32,7 +32,7 @@ var geonames = angular.module('geolocation', [])
             code: country
         });
         return geoRequest(path);
-    }
+    };
 }])
 
 .factory('geoNeighbours', ['geoRequest', '$interpolate', 'NEIGHBOURS_PATH', function (geoRequest, $interpolate, NEIGHBOURS_PATH) {
@@ -41,5 +41,5 @@ var geonames = angular.module('geolocation', [])
             code: country
         });
         return geoRequest(path);
-    }
+    };
 }]);

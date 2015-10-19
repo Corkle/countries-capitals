@@ -6,6 +6,7 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-viewsModule.controller('HomeCtrl', function () {
+viewsModule.controller('HomeCtrl',['PageTitle', function (PageTitle) {
+    PageTitle.set('Countries & Capitals');
     this.text = "This is the home text.";
-});
+}]);

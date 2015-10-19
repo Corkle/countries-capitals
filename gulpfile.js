@@ -11,6 +11,7 @@ var paths = {
     ngscriptName: 'combined-scripts.js',
     index: './index.html',
     partials: 'app/**/*.html',
+    assets: ['assets/**', '!assets/{js,js/**}', '!assets/{libs,libs/**}', '!assets/{css,css/**}'],
     build: 'build/'
 };
 
@@ -59,6 +60,10 @@ gulp.task('clean', function () {
 gulp.task('clean-scripts', function() {
     gulp.src(paths.ngscriptPath + paths.ngscriptName)
         .pipe(plugins.clean());
+});
+
+gulp.task('copy-assets', function() {
+   gulp.src(paths.assets).pipe(gulp.dest(paths.build + '/assets/')); 
 });
 
 gulp.task('build', ['bundle-scripts', 'usemin']);

@@ -5,7 +5,8 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
             controller: 'CountriesCtrl as c'
         });
 }])
-    .controller('CountriesCtrl', ['allCountries', '$state', function (allCountries, $state) {
+    .controller('CountriesCtrl', ['allCountries', '$state', 'PageTitle', function (allCountries, $state, PageTitle) {
+        PageTitle.set('Browse Countries');
 
         var LIST_STEP = 15;
 

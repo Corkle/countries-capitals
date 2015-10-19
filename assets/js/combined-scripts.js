@@ -12,6 +12,11 @@ function DEBUG(msg, obj) {
     console.log(msg, obj);
 }
 var viewsModule = angular.module('ccAppViews', ['ui.router', 'templates', 'geolocation']);
+app.controller('AppCtrl', ['$scope', 'PageTitle', function($scope, PageTitle) {
+    $scope.title = PageTitle;
+    $scope.isCollapsed = true;
+    $scope.isLoading = true;
+}]);
 var geonames = angular.module('geolocation', [])
     .constant('AUTH', '&username=corkle')
     .constant('API_PREFIX', 'http://api.geonames.org')
@@ -46,7 +51,7 @@ var geonames = angular.module('geolocation', [])
             code: country
         });
         return geoRequest(path);
-    }
+    };
 }])
 
 .factory('geoNeighbours', ['geoRequest', '$interpolate', 'NEIGHBOURS_PATH', function (geoRequest, $interpolate, NEIGHBOURS_PATH) {
@@ -55,11 +60,16 @@ var geonames = angular.module('geolocation', [])
             code: country
         });
         return geoRequest(path);
-    }
+    };
 }]);
-app.controller('NavbarCtrl', ['$scope', '$location', function($scope, $location) {
-    $scope.isCollapsed = true;
-}]);
+
+app.factory('PageTitle', function() {
+   var title = 'Countries & Capitals';
+    return {
+        get: function() {return title;},
+        set: function(newTitle) {title = newTitle}
+    };
+});
 viewsModule.config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('countries', {
             url: '/countries',
@@ -67,7 +77,8 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
             controller: 'CountriesCtrl as c'
         });
 }])
-    .controller('CountriesCtrl', ['allCountries', '$state', function (allCountries, $state) {
+    .controller('CountriesCtrl', ['allCountries', '$state', 'PageTitle', function (allCountries, $state, PageTitle) {
+        PageTitle.set('Browse Countries');
 
         var LIST_STEP = 15;
 
@@ -192,7 +203,8 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
             }
         });
 }])
-    .controller('CountryCtrl', ['country', function (country) {
+    .controller('CountryCtrl', ['country', 'PageTitle', function (country, PageTitle) {
+        PageTitle.set(country.countryName);
         this.data = country;
         this.flagPath = 'http://www.geonames.org/flags/x/' + country.countryCode.toLowerCase() + '.gif';
         this.mapPath = 'http://www.geonames.org/img/country/250/' + country.countryCode.toUpperCase() + '.png';
@@ -205,9 +217,10 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-viewsModule.controller('HomeCtrl', function () {
+viewsModule.controller('HomeCtrl',['PageTitle', function (PageTitle) {
+    PageTitle.set('Countries & Capitals');
     this.text = "This is the home text.";
-});
+}]);
 angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("components/countries/countries.html","<h1>Countries</h1><p>{{ c.text }}</p><div class=\"scroll-list\" infinite-scroll=\"c.loadMore()\" can-load=\"true\"><table class=\"table table-hover\"><thead><tr><th>Country Name</th><th>Code</th><th>Capital</th><th>Area in km2</th><th>Population</th><th>Continent</th></tr></thead><tbody><tr ng-repeat=\"country in c.countryList track by country.countryCode\" ng-click=\"c.countryPage(country)\"><td ng-bind=\"::country.countryName\"></td><td ng-bind=\"::country.countryCode\"></td><td ng-bind=\"::country.capital\"></td><td ng-bind=\"::country.areaInSqKm | number\"></td><td ng-bind=\"::country.population | number\"></td><td ng-bind=\"::country.continent\"></td></tr></tbody></table></div><div class=\"inner\"><a ui-sref=\"home\"><button class=\"btn btn-lg btn-default\">Home</button></a></div>");
 $templateCache.put("components/country/country.html","<div class=\"country-detail\"><h1 ng-bind-template=\"{{::country.data.countryName}} ({{::country.data.countryCode}})\"></h1><table class=\"table centered\"><tr><th>Continent</th><td ng-bind=\"::country.data.continentName\"></td></tr><tr><th>Population of Country</th><td ng-bind=\"::country.data.population | number\"></td></tr><tr><th>Area</th><td ng-bind-template=\"{{::country.data.areaInSqKm | number}} km&#178\"></td></tr><tr><th>Captial</th><td ng-bind=\"::country.data.capital\"></td></tr><tr><th>Population of Capital</th><td ng-bind=\"::country.data.capitalPopulation | number\"></td></tr><tr><th ng-bind-template=\"{{ ::country.data.neighbours.length }} Neighbours\">Neighbors</th><td><span ng-repeat=\"neighbour in country.data.neighbours\"><a ui-sref=\"country({country: neighbour.countryCode})\">{{neighbour.countryName}}</a>{{ $last ? \"\" : \", \"}}</span></td></tr></table><div class=\"row centered\"><div class=\"col-sm-4 col-sm-offset-2 inner\"><img id=\"country-flag\" ng-src=\"{{country.flagPath}}\"></div><div class=\"col-sm-4 inner\"><img id=\"country-map\" ng-src=\"{{country.mapPath}}\"></div></div></div><div class=\"row inner\"><a ui-sref=\"countries\"><button type=\"button\" class=\"btn btn-default\">Countries</button></a> <a ui-sref=\"home\"><button type=\"button\" class=\"btn btn-default\">Home</button></a></div>");
 $templateCache.put("components/error/error.html","<p>Error - Page Not Found</p>");

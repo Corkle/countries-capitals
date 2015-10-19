@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="ccApp">
+<html lang="en" ng-app="ccApp" ng-controller="AppCtrl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, inital-scale=1">
-    <title>Countries & Capitals</title>
+    <title ng-bind="title.get()">Countries & Capitals</title>
     <!-- build:css style.css -->
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
@@ -14,7 +14,7 @@
 <body>
 
     <div class="site-wrapper">
-        <div class="site-wrapper-inner" ng-controller="NavbarCtrl">
+        <div class="site-wrapper-inner" ng-class="{loading: isLoading}">
             <header id="top-navbar">
                 <nav class="navbar" >
                     <div class="container-fluid col-md-8 col-md-offset-2">
@@ -44,7 +44,7 @@
 
             <div class="content-container" ng-click="isCollapsed = true">
                 <!--            PARTIALS LOAD HERE        -->
-                <div class="content-box col-sm-10 col-md-8" ui-view autoscroll></div>
+                <div class="content-box col-sm-10 col-md-8 animated" ui-view autoscroll></div>
                 
                 
                 <div class="mastfoot col-sm-8">

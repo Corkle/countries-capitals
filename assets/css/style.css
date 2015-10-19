@@ -171,11 +171,50 @@ body {
 
 #top-navbar {
     width: 100%;
+    z-index: 9999;
 }
 
 .mastfoot {
     color: #999; /* IE8 proofing */
     color: rgba(255,255,255,.5);
+}
+
+.loading {
+    position: relative;
+/*    height: 100%;*/
+}
+
+.loading:before {
+    padding-bottom: 30px; 
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+    background: rgba(33,33,33,.9) url('../img/load.gif') no-repeat fixed 50% 50%;
+}
+
+.animated {
+    transition: all 2s ease;
+}
+
+.animated.ng-enter {
+    opacity: 0;
+}
+
+.animated.ng-enter-active {
+    opacity: 1;
+}
+
+.animated.ng-leave {
+    transition: none;
+    opacity: 1;
+}
+
+.animated.ng-leave-active {
+    opacity: 0;
 }
 
 

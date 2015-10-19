@@ -51,7 +51,8 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
             }
         });
 }])
-    .controller('CountryCtrl', ['country', function (country) {
+    .controller('CountryCtrl', ['country', 'PageTitle', function (country, PageTitle) {
+        PageTitle.set(country.countryName);
         this.data = country;
         this.flagPath = 'http://www.geonames.org/flags/x/' + country.countryCode.toLowerCase() + '.gif';
         this.mapPath = 'http://www.geonames.org/img/country/250/' + country.countryCode.toUpperCase() + '.png';
