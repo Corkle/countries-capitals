@@ -12,10 +12,10 @@ function DEBUG(msg, obj) {
     console.log(msg, obj);
 }
 var viewsModule = angular.module('ccAppViews', ['ui.router', 'templates', 'geolocation']);
-app.controller('AppCtrl', ['$scope', 'PageTitle', function($scope, PageTitle) {
+app.controller('AppCtrl', ['$scope', 'PageTitle', 'Loading', function($scope, PageTitle, Loading) {
     $scope.title = PageTitle;
     $scope.isCollapsed = true;
-    $scope.isLoading = false;
+    $scope.isLoading = Loading;
 }]);
 var geonames = angular.module('geolocation', [])
     .constant('AUTH', '&username=corkle')
@@ -62,7 +62,13 @@ var geonames = angular.module('geolocation', [])
         return geoRequest(path);
     };
 }]);
-
+app.factory('Loading', function() {
+    var isLoading = false;
+    return {
+        get: function() {return isLoading;},
+        set: function(bool) {isLoading = bool;}
+    };
+});
 app.factory('PageTitle', function() {
    var title = 'Countries & Capitals';
     return {
@@ -107,8 +113,24 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
             });
         };
 }]);
-viewsModule.factory('allCountries', ['geoCountries','$q', function (geoCountries, $q) {
+viewsModule.factory('allCountries', ['geoCountries','$q', 'Loading', function (geoCountries, $q, Loading) {      
+    function findById(id) {
+        var country = {
+            found: false
+        };
+
+        for (var i = 0; i < countries.length; i++) {
+            if (countries[i].countryCode == id) {
+                country.found = true;
+                country.data = countries[i];
+                break;
+            }
+        }
+        return country;
+    }
+    
     var countries = [];
+    Loading.set(true);    
 
     function get(countryId) {
         var deferred = $q.defer();
@@ -127,23 +149,12 @@ viewsModule.factory('allCountries', ['geoCountries','$q', function (geoCountries
                 else {
                     deferred.reject("Country Not Found.");
                 }
-            });
+            })
+        .then(function() {
+            Loading.set(false);
+        });
+        
         return deferred.promise;
-    }
-
-    function findById(id) {
-        var country = {
-            found: false
-        };
-
-        for (var i = 0; i < countries.length; i++) {
-            if (countries[i].countryCode == id) {
-                country.found = true;
-                country.data = countries[i];
-                break;
-            }
-        }
-        return country;
     }
     
     return {
@@ -170,8 +181,6 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
                             return $q.reject(err);
                         })
                         .then(function (neighbours) {
-                            //                            DEBUG('neighbours Resolve: ', neighbours);
-                            //                            DEBUG('if neighbours.geonames', neighbours.geonames ? true : false);
                             if (neighbours.geonames) {
                                 if (neighbours.totalResultsCount > 0) {
                                     countryData.neighbours = neighbours.geonames;
@@ -187,7 +196,6 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
                             return $q.reject(err);
                         })
                         .then(function (capitalData) {
-                            DEBUG(capitalData);
                             if (capitalData.totalResultsCount > 0) {
                                 countryData.capitalPopulation = capitalData.geonames[0].population;
                             }
@@ -209,6 +217,51 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
         this.flagPath = 'http://www.geonames.org/flags/x/' + country.countryCode.toLowerCase() + '.gif';
         this.mapPath = 'http://www.geonames.org/img/country/250/' + country.countryCode.toUpperCase() + '.png';
     }]);
+viewsModule.factory('countryDetails', ['$q','allCountries', 'geoCapital', 'geoNeighbours', function ($q, allCountries, geoCapital, geoNeighbours) {
+    
+    function get(countryId) {
+        var deferred = $q.defer();
+        var countryData = {};
+        
+        allCountries.get(countryId)
+            .then(function (data) {
+            countryData = data;
+            return geoNeighbours(countryId);
+        }, function (err) {
+            return $q.reject(err);
+        })
+            .then(function (neighbours) {
+            if (neighbours.geonames) {
+                if (neighbours.totalResultsCount > 0) {
+                    countryData.neighbours = neighbours.geonames;
+                }
+            }
+
+            if (countryData.capital) {
+                return geoCapital(countryData.capital, countryId);
+            }
+            return $q.reject('No capital found');
+
+        }, function (err) {
+            return $q.reject(err);
+        })
+            .then(function (capitalData) {
+            if (capitalData.totalResultsCount > 0) {
+                countryData.capitalPopulation = capitalData.geonames[0].population;
+            }
+            deferred.resolve(countryData);
+        }, function (err) {
+            countryData.capitalPopulation = 'DATA NOT FOUND';
+            deferred.resolve(countryData);
+        });
+        
+        return deferred.promise;
+    }
+    
+    return {
+        get: get
+    };
+}]);
 viewsModule.config(['$stateProvider', function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/',

@@ -18,8 +18,6 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
                             return $q.reject(err);
                         })
                         .then(function (neighbours) {
-                            //                            DEBUG('neighbours Resolve: ', neighbours);
-                            //                            DEBUG('if neighbours.geonames', neighbours.geonames ? true : false);
                             if (neighbours.geonames) {
                                 if (neighbours.totalResultsCount > 0) {
                                     countryData.neighbours = neighbours.geonames;
@@ -35,7 +33,6 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
                             return $q.reject(err);
                         })
                         .then(function (capitalData) {
-                            DEBUG(capitalData);
                             if (capitalData.totalResultsCount > 0) {
                                 countryData.capitalPopulation = capitalData.geonames[0].population;
                             }

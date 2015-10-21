@@ -1,5 +1,21 @@
-viewsModule.factory('allCountries', ['geoCountries','$q', function (geoCountries, $q) {
+viewsModule.factory('allCountries', ['geoCountries','$q', 'Loading', function (geoCountries, $q, Loading) {      
+    function findById(id) {
+        var country = {
+            found: false
+        };
+
+        for (var i = 0; i < countries.length; i++) {
+            if (countries[i].countryCode == id) {
+                country.found = true;
+                country.data = countries[i];
+                break;
+            }
+        }
+        return country;
+    }
+    
     var countries = [];
+    Loading.set(true);    
 
     function get(countryId) {
         var deferred = $q.defer();
@@ -18,23 +34,12 @@ viewsModule.factory('allCountries', ['geoCountries','$q', function (geoCountries
                 else {
                     deferred.reject("Country Not Found.");
                 }
-            });
+            })
+        .then(function() {
+            Loading.set(false);
+        });
+        
         return deferred.promise;
-    }
-
-    function findById(id) {
-        var country = {
-            found: false
-        };
-
-        for (var i = 0; i < countries.length; i++) {
-            if (countries[i].countryCode == id) {
-                country.found = true;
-                country.data = countries[i];
-                break;
-            }
-        }
-        return country;
     }
     
     return {
