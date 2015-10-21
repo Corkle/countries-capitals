@@ -15,7 +15,7 @@ var viewsModule = angular.module('ccAppViews', ['ui.router', 'templates', 'geolo
 app.controller('AppCtrl', ['$scope', 'PageTitle', function($scope, PageTitle) {
     $scope.title = PageTitle;
     $scope.isCollapsed = true;
-    $scope.isLoading = true;
+    $scope.isLoading = false;
 }]);
 var geonames = angular.module('geolocation', [])
     .constant('AUTH', '&username=corkle')
@@ -67,7 +67,7 @@ app.factory('PageTitle', function() {
    var title = 'Countries & Capitals';
     return {
         get: function() {return title;},
-        set: function(newTitle) {title = newTitle}
+        set: function(newTitle) {title = newTitle;}
     };
 });
 viewsModule.config(['$stateProvider', function ($stateProvider) {

@@ -12,7 +12,8 @@ var paths = {
     index: './index.html',
     partials: 'app/**/*.html',
     assets: ['assets/**', '!assets/{js,js/**}', '!assets/{libs,libs/**}', '!assets/{css,css/**}'],
-    build: 'build/'
+    build: 'build/',
+    purifycssIgnore: 'assets/css/.purifycssIgnore'
 };
 
 // concatenate all AngularJS files
@@ -38,7 +39,7 @@ gulp.task('html', function() {
 gulp.task('usemin', ['bundle-scripts'],function () {
     gulp.src(paths.index)
         .pipe(plugins.usemin({
-            css: ['concat', plugins.purifycss(paths.scripts.concat(paths.index, paths.partials), {
+            css: ['concat', plugins.purifycss(paths.scripts.concat(paths.index, paths.partials, paths.purifycssIgnore), {
                 info: true,
                 rejected: true
             }), plugins.autoprefixer('last 2 versions'), plugins.minifyCss({
