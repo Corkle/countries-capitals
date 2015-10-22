@@ -9,5 +9,7 @@ var app = angular.module('ccApp', ['ui.bootstrap', 'ui.router', 'ngAnimate', 'in
 }]);
 
 function DEBUG(msg, obj) {
-    console.log(msg, obj);
+    var dt = new Date();
+    var timestamp = dt.toLocaleTimeString();
+    console.log(timestamp, msg, obj);
 }

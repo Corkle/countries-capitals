@@ -1,4 +1,4 @@
-viewsModule.factory('allCountries', ['geoCountries','$q', 'Loading', function (geoCountries, $q, Loading) {      
+viewsModule.factory('getCountryData', ['geoCountries','$q', 'Loading', function (geoCountries, $q, Loading) {      
     function findById(id) {
         var country = {
             found: false
@@ -17,7 +17,7 @@ viewsModule.factory('allCountries', ['geoCountries','$q', 'Loading', function (g
     var countries = [];
     Loading.set(true);    
 
-    function get(countryId) {
+    return function (countryId) {
         var deferred = $q.defer();
         geoCountries()
             .then(function (countryData) {
@@ -40,9 +40,5 @@ viewsModule.factory('allCountries', ['geoCountries','$q', 'Loading', function (g
         });
         
         return deferred.promise;
-    }
-    
-    return {
-        get: get
-    };
+    };    
 }]);

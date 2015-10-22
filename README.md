@@ -3,4 +3,4 @@
 ### TODO:
 - Retain scroll position on route changes
 - Random country button
-- Run parallel functions for country details: http://solutionoptimist.com/2013/12/27/javascript-promise-chains-2/
+- Loading service should track how many tasks have called it and finish loading only after all tasks are complete.

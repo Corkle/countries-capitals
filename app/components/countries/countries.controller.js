@@ -5,7 +5,7 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
             controller: 'CountriesCtrl as c'
         });
 }])
-    .controller('CountriesCtrl', ['allCountries', '$state', 'PageTitle', function (allCountries, $state, PageTitle) {
+    .controller('CountriesCtrl', ['getCountryData', '$state', 'PageTitle', function (getCountryData, $state, PageTitle) {
         PageTitle.set('Browse Countries');
 
         var LIST_STEP = 15;
@@ -14,7 +14,7 @@ viewsModule.config(['$stateProvider', function ($stateProvider) {
 
         var that = this;
         var allCountriesList = [];
-        allCountries.get()
+        getCountryData()
             .then(function (countryData) {
                 allCountriesList = countryData.sort(function (a, b) {
                     if (a.countryName < b.countryName) return -1;
