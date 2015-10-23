@@ -125,6 +125,7 @@ body {
 
 .country-detail img {
     width: 100%;
+    max-width: 300px;
     max-height: 200px;
 }
 
@@ -256,6 +257,7 @@ body {
         position: absolute;
         bottom: 0;
     }
+
 }
 
 nav.navbar {
