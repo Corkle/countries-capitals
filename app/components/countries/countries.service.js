@@ -15,14 +15,13 @@ viewsModule.factory('getCountryData', ['geoCountries','$q', 'Loading', function 
     }
     
     var countries = [];
-    Loading.set(true);    
 
     return function (countryId) {
+        Loading.set(true);
         var deferred = $q.defer();
         geoCountries()
             .then(function (countryData) {
                 countries = countryData.data.geonames;
-            
                 if (!countryId) {
                     deferred.resolve(countries);
                 }
